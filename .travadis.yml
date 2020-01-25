@@ -6,16 +6,18 @@ before_install:
     - docker build taranadesai/complex_react_app_client_dev -f ./client/Dockerfile.dev
 
 script:
-    - docker run taranadesai/complex_react_app_client_dev npm test -- --cover
+    - docker run -e CI=true taranadesai/complex_react_app_client_dev npm test
     
 after_success:
     - docker build taranadesai/complex_react_app_client ./client
     - docker build taranadesai/complex_react_app_nginx ./nginx
     - docker build taranadesai/complex_react_app_server ./server    
     - docker build taranadesai/complex_react_app_worker ./worker
-    # docker login
+    # login to docker CLI
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin 
     # push those docker images to docker-hub
-    
-    
-deploy:
+    docker push taranadesai/complex_react_app_client
+    docker push taranadesai/complex_react_app_nginx
+    docker push taranadesai/complex_react_app_server
+    docker push taranadesai/complex_react_app_worker
     
