@@ -2,15 +2,18 @@ language: generic
 sudo: required
 services:
     - docker
+
 before_install:
     - docker build -t taranadesai/multi-client-dev -f ./client/Dockerfile.dev ./client
+
 script:
     - docker run -e CI=true taranadesai/multi-client-dev npm test
+
 after_success:
-    - docker build taranadesai/multi-client ./client
-    - docker build taranadesai/multi-nginx ./nginx
-    - docker build taranadesai/multi-server ./server    
-    - docker build taranadesai/multi-worker ./worker
+    - docker build -t taranadesai/multi-client ./client
+    - docker build -t taranadesai/multi-nginx ./nginx
+    - docker build -t taranadesai/multi-server ./server    
+    - docker build -t taranadesai/multi-worker ./worker
     # login to docker CLI
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin 
     # push those docker images to docker-hub
