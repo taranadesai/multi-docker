@@ -17,7 +17,7 @@ after_success:
     # login to docker CLI
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin 
     # push those docker images to docker-hub
-    docker push taranadesai/multi-client
-    docker push taranadesai/multi-nginx
-    docker push taranadesai/multi-server
-    docker push taranadesai/multi-worker
+    - docker push taranadesai/multi-client
+    - docker push taranadesai/multi-nginx
+    - docker push taranadesai/multi-server
+    - docker push taranadesai/multi-worker
